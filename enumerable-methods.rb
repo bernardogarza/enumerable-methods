@@ -8,9 +8,22 @@ module Enumerable
     end
     
     def my_each_with_index
+        return self if !block_given?
+        for i in 0..self.length-1
+            yield(self[i], i)
+        end
     end
 
     def my_select
+        return self if !block_given?
+        arr = []
+        my_each {
+            |x|
+            if yield(x) == true
+                arr << x
+            end
+        }
+        arr
     end
 
     def my_all?
@@ -31,3 +44,20 @@ module Enumerable
     def my_inject
     end
 end
+
+
+=begin
+****************************************************************
+arr = [1, 3, 5]
+arr.my_each { |x| puts x*2}
+
+arr = [1, 3, 5]
+arr.my_each_with_index { |x, y| puts "#{y}. #{x}"}
+
+rnd = [1, 3, 5, 2, 4]
+rnd.my_select { |r| r.even?}
+****************************************************************
+=end
+
+
+
