@@ -29,8 +29,8 @@ module Enumerable
     def my_all?
         return self if !block_given?
         my_each {
-          |ele| 
-          if yield(ele) == false
+          |x| 
+          if yield(x) == false
             return false
           end
         }
@@ -38,6 +38,14 @@ module Enumerable
     end
 
     def my_any?
+        return self if !block_given?
+        my_each {
+          |x| 
+          if yield(x) == true
+            return true
+          end
+        }
+        false
     end
 
     def my_none?
@@ -56,6 +64,8 @@ end
 
 =begin
 ****************************************************************
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>TESTS<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
 arr = [1, 3, 5]
 arr.my_each { |x| puts x*2}
 
@@ -64,8 +74,18 @@ arr.my_each_with_index { |x, y| puts "#{y}. #{x}"}
 
 rnd = [1, 3, 5, 2, 4]
 rnd.my_select { |r| r.even?}
+
+ar = [2, 4, 6]
+ar.my_all? { |x| x.even?}
+
+ar = [2, 4, 6, 3]
+ar.my_any? { |x| x.even?}
+
+
 ****************************************************************
 =end
 
 
+ar = [2, 4, 6, 3]
+ar.my_any? { |x| x.even?}
 
