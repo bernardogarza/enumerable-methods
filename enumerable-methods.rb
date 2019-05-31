@@ -72,9 +72,26 @@ module Enumerable
     end
 
     def my_map
+        return self if proc.nil? && !block_given?
+        arr = []
+        my_each {
+          |x|
+          val = proc.nil? ? yield(x) : proc.call(x)
+          arr << val
+        }
+        arr
     end
 
-    def my_inject
+    def my_inject (acc = self)
+        return self if !block_given?
+        my_each {
+            |x|
+            if x == acc
+                next
+            else
+                acc = yield(acc, x)
+            end
+        }
     end
 end
 
@@ -90,7 +107,7 @@ arr = [1, 3, 5]
 arr.my_each_with_index { |x, y| puts "#{y}. #{x}"}
 
 rnd = [1, 3, 5, 2, 4]
-rnd.my_select { |r| r.even?}
+rnd.my_select { |x| x.even?}
 
 ar = [2, 4, 6]
 ar.my_all? { |x| x.even?}
@@ -103,5 +120,8 @@ ar.my_none? { |x| x.even?}
 
 ar = [3, 1, 1, 2]
 ar.my_count { |x| x.even?}
+
+ar = [3, 1, 1, 2]
+nar=ar.my_map{ |x| x.even?}
 ****************************************************************
 =end
