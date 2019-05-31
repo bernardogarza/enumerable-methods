@@ -27,6 +27,14 @@ module Enumerable
     end
 
     def my_all?
+        return self if !block_given?
+        my_each {
+          |ele| 
+          if yield(ele) == false
+            return false
+          end
+        }
+        true
     end
 
     def my_any?
