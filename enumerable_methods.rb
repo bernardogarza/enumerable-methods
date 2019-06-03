@@ -55,14 +55,22 @@ module Enumerable
     true
   end
 
-  def my_count
-    return length unless block_given?
+  def my_count(*args)
+    if args.empty?
+      return length unless block_given?
 
-    i = 0
-    my_each do |x|
-      i += 1 if x == true
+      i = 0
+      my_each do |x|
+        i += 1 if yield(x) == true
+      end
+      i
+    else
+      i = 0
+      my_each do |x|
+        i += 1 if args[0] == x
+      end
+      i
     end
-    i
   end
 
   def my_map
