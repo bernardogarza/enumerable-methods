@@ -136,3 +136,8 @@ puts multiply_els([1, 2, 3])
 # ar.my_inject{|x, y| x + y}
 #
 # ****************************************************************
+ar = (1..6).to_a
+# ans = []
+str = ""
+ans = ar.my_inject{|x, y| x + y}
+print ans
